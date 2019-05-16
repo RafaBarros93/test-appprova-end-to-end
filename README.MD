@@ -6,7 +6,7 @@
   Para desenvolvimento deste desafio
   utilizei o framework  cypress.js um framework para testes
 
-  (https://www.cypress.io/)
+  -[Cypress](https://www.cypress.io/)
 
 ```
 
