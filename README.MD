@@ -7,6 +7,8 @@ utilizei o framework cypress.js um framework para testes
 
 -   [Cypress](https://www.cypress.io/)
 
+Para rodar o [Cypress](https://www.cypress.io/) e ncessario a ter instalado na maquina o [Node.js](https://nodejs.org/en/)
+
 **1-Run project**
 
 ```
