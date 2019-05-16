@@ -12,7 +12,9 @@
 
 **1-Run project**
 
+```
 npm start
+```
 
 **2-Run project in prompt**
 
