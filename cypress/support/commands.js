@@ -93,11 +93,10 @@ Cypress.Commands.add("executeNewSimulatedEmpty", (questions, button) => {
 
     cy.get('button[id="sendButton"]').click({ force: true });
 
-    cy.get("button")
-        .contains("Entregar simulado")
-        .click();
-
-    cy.get("label").should("contain", "MEU DESEMPENHO");
+    cy.get("p").should(
+        "contain",
+        "Responda pelo menos uma questão para entregar o simulado."
+    );
 });
 
 Cypress.Commands.add("mockRequestEmpty", () => {
@@ -119,3 +118,43 @@ Cypress.Commands.add("mockRequestEmpty", () => {
         }
     });
 });
+
+Cypress.Commands.add("mockRequestTime", () => {
+    let mocks;
+
+    cy.request(
+        "http://processoseletivo.enade.saraivaeducacao.com.br/api/v3/mocks/"
+    ).then((response) => {
+        mocks = response.body.data.in_progress.mock_list;
+
+        if (mocks["0"]) {
+            console.log(mocks["0"]);
+
+            cy.executeNewSimulatedDelay(
+                mocks["0"].questions_count,
+                `button[id="Disp_Começar_${mocks["0"].id}"]`,
+                mocks["0"].duration_ms
+            );
+        } else {
+            cy.get('a[id="start-mocks"]').click();
+            cy.get("div").should("contain", "Nenhum simulado foi encontrado.");
+        }
+    });
+});
+
+Cypress.Commands.add(
+    "executeNewSimulatedDelay",
+    (questions, button, duration) => {
+        cy.get(".icon-start").click();
+
+        cy.get(button).click();
+
+        cy.get("button")
+            .contains("Iniciar")
+            .click();
+
+        cy.wait(duration);
+
+        cy.get("section").should("contain", "Atenção");
+    }
+);

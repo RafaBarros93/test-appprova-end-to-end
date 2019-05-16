@@ -43,4 +43,8 @@ describe("Simulated", () => {
     it("initialize new the simulated and do not mark the issues", () => {
         cy.mockRequestEmpty();
     });
+
+    it("initialize new the simulated and does not end at the requested time", () => {
+        cy.mockRequestTime();
+    });
 });
