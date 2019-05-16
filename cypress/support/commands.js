@@ -5,12 +5,14 @@
  */
 
 Cypress.Commands.add("login", (login, password) => {
-    if (login && password) {
+    if (login) {
         cy.get('input[name="user[email]"]', { timeout: 150000 }).type(login);
 
-        cy.get('input[name="user[password]"]', { timeout: 150000 }).type(
-            password
-        );
+        if (password) {
+            cy.get('input[name="user[password]"]', { timeout: 150000 }).type(
+                password
+            );
+        }
 
         cy.get("input")
             .contains("Entrar")
