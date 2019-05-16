@@ -2,13 +2,10 @@
 
 ## Ambiente de Desenvolvimento
 
-```
-  Para desenvolvimento deste desafio
-  utilizei o framework  cypress.js um framework para testes
+Para desenvolvimento deste desafio
+utilizei o framework cypress.js um framework para testes
 
-  -[Cypress](https://www.cypress.io/)
-
-```
+-   [Cypress](https://www.cypress.io/)
 
 **1-Run project**
 
