@@ -4,6 +4,12 @@
  * Desafio Técnico - QA Engineer
  */
 
+Cypress.Commands.add("containsClick", (type, contains) => {
+    cy.get(type)
+        .contains(contains)
+        .click();
+});
+
 Cypress.Commands.add("login", (login, password) => {
     if (login) {
         cy.get('input[name="user[email]"]', { timeout: 150000 }).type(login);
@@ -14,13 +20,9 @@ Cypress.Commands.add("login", (login, password) => {
             );
         }
 
-        cy.get("input")
-            .contains("Entrar")
-            .click();
+        cy.containsClick("input", "Entrar");
     } else {
-        cy.get("input")
-            .contains("Entrar")
-            .click();
+        cy.containsClick("input", "Entrar");
     }
 });
 
@@ -53,9 +55,7 @@ Cypress.Commands.add("executeNewSimulated", (questions, button) => {
 
     cy.get(button).click();
 
-    cy.get("button")
-        .contains("Iniciar")
-        .click();
+    cy.containsClick("button", "Iniciar");
 
     let characters = "abcde";
 
@@ -64,18 +64,14 @@ Cypress.Commands.add("executeNewSimulated", (questions, button) => {
 
         res += characters.charAt(Math.floor(Math.random() * characters.length));
 
-        cy.get("span.style__squareContent__3DvbQ ")
-            .contains(res.concat("."))
-            .click();
+        cy.containsClick("span.style__squareContent__3DvbQ ", res.concat("."));
 
         cy.clickTest('button[id="nextButton"]');
     }
 
     cy.get('button[id="sendButton"]').click({ force: true });
 
-    cy.get("button")
-        .contains("Entregar simulado")
-        .click();
+    cy.containsClick("button", "Entregar simulado");
 
     cy.get("label").should("contain", "MEU DESEMPENHO");
 });
@@ -85,9 +81,7 @@ Cypress.Commands.add("executeNewSimulatedEmpty", (questions, button) => {
 
     cy.get(button).click();
 
-    cy.get("button")
-        .contains("Iniciar")
-        .click();
+    cy.containsClick("button", "Iniciar");
 
     for (let index = 0; index < questions; index++) {
         cy.clickTest('button[id="nextButton"]');
@@ -151,9 +145,7 @@ Cypress.Commands.add(
 
         cy.get(button).click();
 
-        cy.get("button")
-            .contains("Iniciar")
-            .click();
+        cy.containsClick("button", "Iniciar");
 
         cy.wait(duration);
 

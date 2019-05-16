@@ -22,9 +22,7 @@ describe("Login", () => {
     it("email completed and blank password", () => {
         cy.login("fael1-6@hotmail.com");
 
-        cy.get("input")
-            .contains("Entrar")
-            .click();
+        cy.containsClick("input", "Entrar");
 
         cy.get(".alert").should("contain", "Email ou senha inválidos.");
     });
