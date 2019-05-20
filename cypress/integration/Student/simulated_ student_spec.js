@@ -26,6 +26,14 @@ describe("Login", () => {
 
         cy.get(".alert").should("contain", "Email ou senha inválidos.");
     });
+
+    it("wrong email and passwordd", () => {
+        cy.login("teste@invalid", "123456");
+
+        cy.containsClick("input", "Entrar");
+
+        cy.get(".alert").should("contain", "Email ou senha inválidos.");
+    });
 });
 
 describe("Simulated", () => {

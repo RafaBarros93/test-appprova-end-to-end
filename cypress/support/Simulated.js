@@ -10,22 +10,6 @@ Cypress.Commands.add("containsClick", (type, contains) => {
         .click();
 });
 
-Cypress.Commands.add("login", (login, password) => {
-    if (login) {
-        cy.get('input[name="user[email]"]', { timeout: 150000 }).type(login);
-
-        if (password) {
-            cy.get('input[name="user[password]"]', { timeout: 150000 }).type(
-                password
-            );
-        }
-
-        cy.containsClick("input", "Entrar");
-    } else {
-        cy.containsClick("input", "Entrar");
-    }
-});
-
 Cypress.Commands.add("clickTest", (data) => {
     cy.get(data).click({ force: true });
 });
@@ -83,16 +67,35 @@ Cypress.Commands.add("executeNewSimulatedEmpty", (questions, button) => {
 
     cy.containsClick("button", "Iniciar");
 
-    for (let index = 0; index < questions; index++) {
-        cy.clickTest('button[id="nextButton"]');
-    }
-
     cy.get('button[id="sendButton"]').click({ force: true });
 
     cy.get("p").should(
         "contain",
         "Responda pelo menos uma questão para entregar o simulado."
     );
+
+    cy.get(".theme__navigation__wgwdj > .theme__button__2Agdx").click();
+
+    cy.containsClick("span.style__squareContent__3DvbQ ", "a.").click();
+
+    cy.get('button[id="sendButton"]').click({ force: true });
+
+    /*    cy.get(".style__confirmButton__1dTBL").should(
+        "contain",
+        "Você não respondeu todas as questões."
+    ); */
+
+    cy.get(".style__answered__6Dm3n").should(
+        "contain",
+        "Você não respondeu todas as questões."
+    );
+
+    cy.get(".style__modal__Q0Khc > :nth-child(2)").should(
+        "contain",
+        "Deseja realmente entregar o simulado?"
+    );
+
+    cy.get(".style__confirmButton__1dTBL").click();
 });
 
 Cypress.Commands.add("mockRequestEmpty", () => {
