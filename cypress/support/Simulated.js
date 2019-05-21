@@ -1,9 +1,3 @@
-/*!
- * @Rafael Lopes Fonseca
- * date 05/16/2019
- * Desafio Técnico - QA Engineer
- */
-
 Cypress.Commands.add("containsClick", (type, contains) => {
     cy.get(type)
         .contains(contains)
@@ -14,18 +8,19 @@ Cypress.Commands.add("clickTest", (data) => {
     cy.get(data).click({ force: true });
 });
 
-Cypress.Commands.add("mockRequest", () => {
+Cypress.Commands.add("mockRequest", (route, command) => {
     let mocks;
 
-    cy.request(
-        "http://processoseletivo.enade.saraivaeducacao.com.br/api/v3/mocks/"
-    ).then((response) => {
+    console.log(command);
+
+    cy.request(route).then((response) => {
         mocks = response.body.data.in_progress.mock_list;
 
         if (mocks["0"]) {
-            cy.executeNewSimulated(
+            command(
                 mocks["0"].questions_count,
-                `button[id="Disp_Começar_${mocks["0"].id}"]`
+                `button[id="Disp_Começar_${mocks["0"].id}"]`,
+                mocks["0"].duration_ms
             );
         } else {
             cy.get('a[id="start-mocks"]').click();
@@ -98,49 +93,6 @@ Cypress.Commands.add("executeNewSimulatedEmpty", (questions, button) => {
     cy.get(".style__confirmButton__1dTBL").click();
 });
 
-Cypress.Commands.add("mockRequestEmpty", () => {
-    let mocks;
-
-    cy.request(
-        "http://processoseletivo.enade.saraivaeducacao.com.br/api/v3/mocks/"
-    ).then((response) => {
-        mocks = response.body.data.in_progress.mock_list;
-
-        if (mocks["0"]) {
-            cy.executeNewSimulatedEmpty(
-                mocks["0"].questions_count,
-                `button[id="Disp_Começar_${mocks["0"].id}"]`
-            );
-        } else {
-            cy.get('a[id="start-mocks"]').click();
-            cy.get("div").should("contain", "Nenhum simulado foi encontrado.");
-        }
-    });
-});
-
-Cypress.Commands.add("mockRequestTime", () => {
-    let mocks;
-
-    cy.request(
-        "http://processoseletivo.enade.saraivaeducacao.com.br/api/v3/mocks/"
-    ).then((response) => {
-        mocks = response.body.data.in_progress.mock_list;
-
-        if (mocks["0"]) {
-            console.log(mocks["0"]);
-
-            cy.executeNewSimulatedDelay(
-                mocks["0"].questions_count,
-                `button[id="Disp_Começar_${mocks["0"].id}"]`,
-                mocks["0"].duration_ms
-            );
-        } else {
-            cy.get('a[id="start-mocks"]').click();
-            cy.get("div").should("contain", "Nenhum simulado foi encontrado.");
-        }
-    });
-});
-
 Cypress.Commands.add(
     "executeNewSimulatedDelay",
     (questions, button, duration) => {
@@ -153,5 +105,27 @@ Cypress.Commands.add(
         cy.wait(duration);
 
         cy.get("section").should("contain", "Atenção");
+
+        cy.get(".style__answered__1bAfq").should("contain", "O tempo acabou!");
     }
 );
+
+Cypress.Commands.add("initializeSimuleted", () => {
+    cy.mockRequest(
+        "http://processoseletivo.enade.saraivaeducacao.com.br/api/v3/mocks/",
+        cy.executeNewSimulated
+    );
+});
+
+Cypress.Commands.add("initializeSimuletedDelay", () => {
+    cy.mockRequest(
+        "http://processoseletivo.enade.saraivaeducacao.com.br/api/v3/mocks/",
+        cy.executeNewSimulatedDelay
+    );
+});
+Cypress.Commands.add("initializeSimuletedEmpty", () => {
+    cy.mockRequest(
+        "http://processoseletivo.enade.saraivaeducacao.com.br/api/v3/mocks/",
+        cy.executeNewSimulatedEmpty
+    );
+});

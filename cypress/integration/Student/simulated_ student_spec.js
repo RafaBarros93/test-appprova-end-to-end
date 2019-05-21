@@ -1,9 +1,3 @@
-/*!
- * @Rafael Lopes Fonseca
- * date 05/16/2019
- * Desafio Técnico - QA Engineer
- */
-
 describe("Login", () => {
     beforeEach(() => {
         cy.visit("/users/sign_in");
@@ -43,14 +37,14 @@ describe("Simulated", () => {
     });
 
     it("initialize new the simulated", () => {
-        cy.mockRequest();
+        cy.initializeSimuleted();
     });
 
     it("initialize new the simulated and do not mark the issues", () => {
-        cy.mockRequestEmpty();
+        cy.initializeSimuletedEmpty();
     });
 
     it("initialize new the simulated and does not end at the requested time", () => {
-        cy.mockRequestTime();
+        cy.initializeSimuletedDelay();
     });
 });
